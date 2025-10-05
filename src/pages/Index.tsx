@@ -1,14 +1,41 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from 'react';
+import Loader from '../components/Loader';
+import Auth from '../components/Auth';
+import Dashboard from '../components/Dashboard';
+import { getAuthToken } from '../lib/api';
 
 const Index = () => {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Simulate initial loading and check authentication
+    const timer = setTimeout(() => {
+      const token = getAuthToken();
+      setIsAuthenticated(!!token);
+      setLoading(false);
+    }, 2500); // Show loader for 2.5 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleAuthSuccess = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (!isAuthenticated) {
+    return <Auth onAuthSuccess={handleAuthSuccess} />;
+  }
+
+  return <Dashboard onLogout={handleLogout} />;
 };
 
 export default Index;

@@ -106,7 +106,7 @@ export default function Dashboard({ onLogout }: DashboardProps) {
       students.length > 0
         ? (
             students.reduce(
-              (acc, s) => acc + (s.attendance_percentage + s.assignment_score) / 2,
+              (acc, s) => acc + (s.grade_point_average || 0),
               0
             ) / students.length
           ).toFixed(1)

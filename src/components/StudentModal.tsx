@@ -11,6 +11,7 @@ interface Student {
   attendancePercentage?: number;
   assignment_score?: number;
   assignmentScore?: number;
+  grade_point_average?: number;
 }
 
 interface StudentModalProps {
@@ -177,18 +178,28 @@ export default function StudentModal({ student, onClose, onSave }: StudentModalP
 
           {/* Performance Score Display */}
           <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-2xl p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="text-slate-300 font-semibold text-lg">Calculated Performance Score</span>
-                <p className="text-xs text-slate-400 mt-1">
-                  Average of attendance and assignment score
-                </p>
-              </div>
-              <div className="text-right">
-                <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-                  {performanceScore}%
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-slate-300 font-semibold text-lg">Calculated GPA (Preview)</span>
+                  <p className="text-xs text-slate-400 mt-1">
+                    This will be saved to backend
+                  </p>
+                </div>
+                <div className="text-right">
+                  <div className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                    {performanceScore}%
+                  </div>
                 </div>
               </div>
+              {student?.grade_point_average && (
+                <div className="pt-3 border-t border-slate-700/50">
+                  <div className="flex items-center justify-between">
+                    <span className="text-slate-400 text-sm">Current GPA from Backend:</span>
+                    <span className="text-cyan-400 font-bold text-lg">{student.grade_point_average.toFixed(1)}%</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
